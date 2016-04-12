@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="upDooter" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="upDooter" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="upDooter" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="upDooter" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>UpDooter</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style/normalize.css">
+  <link rel="stylesheet" href="style/html5boilerplate.css">
+  <link rel="stylesheet" href="style/bootstrap.min.css">
+  <link rel="stylesheet" href="style/main.css">
+  <script src="scripts/modernizr-2.8.3.min.js"></script>
+  <script src="scripts/angular.js"></script>
+  <script src="scripts/angular-route.js"></script>
+  <script src="scripts/game.js"></script>
+</head>
+<body>
+<div ng-controller="game">
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-8 col-sm-12 text-center">
+
+        <a class="btn btn-primary updoot" href="#" role="button" ng-click="updoot()">1 click = 1 updoot</a>
+
+      </div>
+
+
+      <div class="col-md-4 col-sm-12">
+        <p><span ng-bind="updoots"></span> updoots</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
