@@ -29,7 +29,7 @@ app.controller('game', function($scope, localStorageService) {
   var potentialDoots;
 
   var updateDoots = function(){
-    potentialDoots = itemCounts[1] + 1;
+    potentialDoots = (itemCounts[1] || 0) + 1;
   };
 
   updateDoots();
@@ -61,6 +61,7 @@ app.controller('game', function($scope, localStorageService) {
         itemCounts[item.id] = 1;
       }
       localStorageService.set('itemCounts', itemCounts)
+  	  updateDoots();
     }
   };
 
