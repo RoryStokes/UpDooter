@@ -42,11 +42,12 @@
       <div class="col-md-8 col-sm-12 page">
         <div ng-repeat="post in posts" class="panel panel-default">
           <div class="panel-body">{{post.text}}</div>
-          <div class="panel-footer text-right">
+          <div class="panel-footer button-bar">
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.updooted}" ng-click="doot(post)">🎺 Updoot</button>
+              <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
             </div>
           </div>
+          <div class="panel-footer doot-bar" ng-show="post.updoots">Updooted by {{post.updoots}}</div>
         </div>
       </div>
     </div>

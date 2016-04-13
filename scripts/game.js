@@ -15,22 +15,24 @@ app.controller('game', function($scope, localStorageService) {
 
 
   $scope.doot = function(post){
-    if(post.updooted){
+    if(post.selfdooted){
       //undoot
       $scope.updoots --;
-      post.updooted = false;
+      post.updoots --;
+      post.selfdooted = false;
     }
     else {
       //updoot
       $scope.updoots ++;
-      post.updooted = true;
+      post.updoots ++;
+      post.selfdooted = true;
     }
   };
 
 
   var posts = 1;
   var makePost = function() {
-    var post = {text: "NEW POST"+posts, updooted: false};
+    var post = {text: "NEW POST"+posts, selfdooted: false, updoots: 0};
     $scope.posts.unshift(post);
     if($scope.posts.length>maxPosts){
       $scope.posts.pop();

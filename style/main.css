@@ -28,3 +28,14 @@ body {
 .selected:focus {
     color: #337ab7;
 }
+
+.button-bar {
+    text-align: right;
+}
+
+.doot-bar {
+    text-align: right;
+    padding: 10px 25px;
+    color: #31708f;
+    background-color:#d9edf7;
+}
