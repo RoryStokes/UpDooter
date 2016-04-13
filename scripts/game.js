@@ -12,12 +12,19 @@ app.controller('game', function($scope, localStorageService) {
   if(!$scope.posts){
     $scope.posts = [];
   }
-
+  var itemCounts = localStorageService.get('itemCounts');
+  if(!itemCounts){
+    itemCounts = {};
+  }
 
   $scope.shop = {};
   $scope.shop.items = [];
-  var lurkers = {name:'Lurker',baseCost:10,count:0};
+  var lurkers = {id:1,name:'Lurker',baseCost:10};
   $scope.shop.items.push(lurkers);
+
+  _($scope.shop.items).forEach(function(item){
+    item.count = itemCounts[item.id] || 0;
+  });
 
   var getCost = function(item){
     return Math.floor(item.baseCost*Math.pow(1.1,item.count));
@@ -34,6 +41,13 @@ app.controller('game', function($scope, localStorageService) {
     if(canAfford(item)){
       $scope.updoots -= getCost(item);
       item.count ++;
+      if(itemCounts[item.id]){
+        itemCounts[item.id] ++;
+      }
+      else{
+        itemCounts[item.id] = 1;
+      }
+      localStorageService.set('itemCounts', itemCounts)
     }
   };
 
