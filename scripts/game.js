@@ -27,6 +27,7 @@ app.controller('game', function($scope, localStorageService) {
       post.updoots ++;
       post.selfdooted = true;
     }
+    localStorageService.set('posts', $scope.posts);
   };
 
 
