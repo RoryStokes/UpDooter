@@ -19,8 +19,22 @@ app.controller('game', function($scope, localStorageService) {
   var lurkers = {name:'Lurker',baseCost:10,count:0};
   $scope.shop.items.push(lurkers);
 
-  $scope.shop.getCost = function(item){
+  var getCost = function(item){
     return Math.floor(item.baseCost*Math.pow(1.1,item.count));
+  };
+
+  var canAfford = function(item){
+    return getCost(item) <= $scope.updoots;
+  };
+
+  $scope.shop.getCost = getCost;
+  $scope.shop.canAfford = canAfford;
+
+  $scope.shop.buy = function(item){
+    if(canAfford(item)){
+      $scope.updoots -= getCost(item);
+      item.count ++;
+    }
   };
 
   $scope.doot = function(post){

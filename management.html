@@ -8,8 +8,8 @@
             <td>🎺{{updoots}}</td>
         </tr>
     </table>
-    <div class="panel-body">
-        <div class="row" ng-repeat="item in shop.items">
+    <div ng-repeat="item in shop.items" class="panel-body shop-item" ng-class="{'disabled':!shop.canAfford(item)}">
+        <a class="row" href="" ng-class="{'disabled':!shop.canAfford(item)}" ng-click="shop.buy(item)">
             <div class="col-xs-9 item-info">
                 <h1>{{item.name}}</h1>
                 <h2>🎺{{shop.getCost(item)}}</h2>
@@ -17,6 +17,6 @@
             <div class="col-xs-3 item-count">
                 {{item.count}}
             </div>
-        </div>
+        </a>
     </div>
 </div>
