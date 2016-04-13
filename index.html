@@ -28,26 +28,20 @@
   <div class="container">
     <div class="row">
 
-      <div class="col-md-8 col-sm-12 text-center">
+    <div class="col-md-4 col-md-push-8 col-sm-12" ng-include="'management.html'"></div>
 
-        <button type="button" class="btn btn-primary updoot" href="#" role="button" data-toggle="button" ng-click="post()">1 click = 1 post</button>
-
+    <div class="col-md-8 col-md-pull-4 col-sm-12 page">
+      <div class="text-center">
+        <button type="button" class="btn btn-primary btn-post" href="#" role="button" data-toggle="button" ng-click="post()">Make Post</button>
       </div>
-
-      <div class="col-md-4 col-sm-12">
-        <p><span ng-bind="updoots"></span> updoots</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 col-sm-12 page">
-        <div ng-repeat="post in posts" class="panel panel-default">
-          <div class="panel-body">{{post.text}}</div>
-          <div class="panel-footer button-bar">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
-            </div>
+      <div ng-repeat="post in posts" class="panel panel-default">
+        <div class="panel-body">{{post.text}}</div>
+        <div class="panel-footer button-bar">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
           </div>
-          <div class="panel-footer doot-bar" ng-show="post.updoots">Updooted by {{post.updoots}}</div>
+        </div>
+        <div class="panel-footer doot-bar" ng-show="post.updoots">Updooted by {{post.updoots}}</div>
         </div>
       </div>
     </div>

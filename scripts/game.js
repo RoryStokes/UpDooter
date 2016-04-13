@@ -14,6 +14,15 @@ app.controller('game', function($scope, localStorageService) {
   }
 
 
+  $scope.shop = {};
+  $scope.shop.items = [];
+  var lurkers = {name:'Lurker',baseCost:10,number:0};
+  $scope.shop.items.push(lurkers);
+
+  $scope.shop.getCost = function(base, n){
+    return Math.floor(base*Math.pow(1.1,n));
+  };
+
   $scope.doot = function(post){
     if(post.selfdooted){
       //undoot
