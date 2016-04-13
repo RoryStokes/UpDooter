@@ -36,12 +36,24 @@
       </div>
       <div ng-repeat="post in posts" class="panel panel-default">
         <div class="panel-body">{{post.text}}</div>
-        <div class="panel-footer button-bar">
+        <div class="panel-footer button-bar text-right">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
           </div>
         </div>
-        <div class="panel-footer doot-bar" ng-show="post.updoots">Updooted by {{post.updoots}}</div>
+        <div class="panel-footer doot-bar" ng-show="post.updoots">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="progress">
+                <div class="progress-bar" ng-class="{'dulled': !$first}" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{width : (dootPercent(post) + '%' ) }">
+                  {{dootPercent(post)}}%
+                </div>
+              </div>
+            </div>
+          <div class="col-md-6 text-right">
+            Updooted by {{post.updoots}}
+          </div>
+          </div>
         </div>
       </div>
     </div>

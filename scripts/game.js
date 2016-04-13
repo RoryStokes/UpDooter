@@ -26,6 +26,15 @@ app.controller('game', function($scope, localStorageService) {
     item.count = itemCounts[item.id] || 0;
   });
 
+  var potentialDoots;
+
+  var updateDoots = function(){
+    potentialDoots = itemCounts[1] + 1;
+  };
+
+  updateDoots();
+  $scope.shop.getCost = getCost;
+
   var getCost = function(item){
     return Math.floor(item.baseCost*Math.pow(1.1,item.count));
   };
@@ -34,7 +43,11 @@ app.controller('game', function($scope, localStorageService) {
     return getCost(item) <= $scope.updoots;
   };
 
-  $scope.shop.getCost = getCost;
+  var dootPercent = function(post){
+    var progress = post.updoots/potentialDoots;
+    return Math.round(progress*100);
+  };
+  $scope.dootPercent = dootPercent;
   $scope.shop.canAfford = canAfford;
 
   $scope.shop.buy = function(item){
@@ -67,6 +80,11 @@ app.controller('game', function($scope, localStorageService) {
     localStorageService.set('posts', $scope.posts);
   };
 
+
+  $scope.test = function(){
+    var post = $scope.posts[0];
+    console.log(dootPercent(post));
+  };
 
   var posts = 1;
   var makePost = function() {

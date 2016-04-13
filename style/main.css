@@ -29,10 +29,6 @@ body {
     color: #337ab7;
 }
 
-.button-bar {
-    text-align: right;
-}
-
 .doot-bar {
     text-align: right;
     padding: 10px 25px;
@@ -76,3 +72,8 @@ a.disabled {
 .shop-item.disabled:hover {
      background: none;
  }
+
+.progress-bar.dulled {
+    background-color: #94C8E3;
+    color: #848E94;
+}
