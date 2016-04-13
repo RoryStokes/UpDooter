@@ -4,10 +4,9 @@ var app = angular.module('upDooter', ['LocalStorageModule']);
 app.controller('game', function($scope, localStorageService) {
   $scope.updoots = 0;
   localStorageService.bind($scope, 'updoots');
-
   var maxPosts = 10;
 
-  $scope.posts = [];
+  $scope.posts = localStorageService.get('posts');
 
   $scope.doot = function(post){
     if(post.updooted){
@@ -31,6 +30,8 @@ app.controller('game', function($scope, localStorageService) {
       $scope.posts.pop();
     }
     posts ++;
+
+    localStorageService.set('posts', $scope.posts);
   };
 
   $scope.post =_.throttle(makePost, 100);

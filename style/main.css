@@ -25,7 +25,6 @@ body {
 .selected:hover {
     color: #23527c;
 }
-
 .selected:focus {
     color: #337ab7;
 }
