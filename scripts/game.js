@@ -5,7 +5,7 @@ app.controller('game', function($scope, localStorageService) {
   $scope.updoots = 0;
   localStorageService.bind($scope, 'updoots');
 
-  var maxPosts = 5;
+  var maxPosts = 10;
 
   $scope.posts = [];
 
@@ -21,8 +21,10 @@ app.controller('game', function($scope, localStorageService) {
       post.updooted = true;
     }
   };
+
+
   var posts = 1;
-  $scope.post = function() {
+  var makePost = function() {
     var post = {text: "NEW POST"+posts, updooted: false};
     $scope.posts.unshift(post);
     if($scope.posts.length>maxPosts){
@@ -30,4 +32,6 @@ app.controller('game', function($scope, localStorageService) {
     }
     posts ++;
   };
+
+  $scope.post =_.throttle(makePost, 100);
 });
