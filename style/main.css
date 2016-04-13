@@ -43,3 +43,32 @@ body {
 .panel-management {
     margin-top: 25px;
 }
+
+
+.panel-horizontal {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.panel-horizontal > .panel-body {
+    background-color: white;
+    border-radius: 0 4px 4px 0;
+    border-left: 1px solid #ddd;
+}
+
+
+.item-info > h1{
+    font-size: x-large;
+    margin: 0;
+    font-weight: bold;
+}
+.item-info > h2 {
+    font-size: large;
+    margin: 5px 0 0 0;
+    color: #666666;
+}
+
+.item-count {
+    font-size: xx-large;
+    text-align: right;
+}

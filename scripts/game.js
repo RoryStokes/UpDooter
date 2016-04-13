@@ -16,11 +16,11 @@ app.controller('game', function($scope, localStorageService) {
 
   $scope.shop = {};
   $scope.shop.items = [];
-  var lurkers = {name:'Lurker',baseCost:10,number:0};
+  var lurkers = {name:'Lurker',baseCost:10,count:0};
   $scope.shop.items.push(lurkers);
 
-  $scope.shop.getCost = function(base, n){
-    return Math.floor(base*Math.pow(1.1,n));
+  $scope.shop.getCost = function(item){
+    return Math.floor(item.baseCost*Math.pow(1.1,item.count));
   };
 
   $scope.doot = function(post){

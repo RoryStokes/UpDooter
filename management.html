@@ -9,6 +9,14 @@
         </tr>
     </table>
     <div class="panel-body">
-        <p>{{updoots}} updoots</p>
+        <div class="row" ng-repeat="item in shop.items">
+            <div class="col-xs-9 item-info">
+                <h1>{{item.name}}</h1>
+                <h2>🎺{{shop.getCost(item)}}</h2>
+            </div>
+            <div class="col-xs-3 item-count">
+                {{item.count}}
+            </div>
+        </div>
     </div>
 </div>
