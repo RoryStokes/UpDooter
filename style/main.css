@@ -58,12 +58,12 @@ body {
 
 
 .item-info > h1{
-    font-size: x-large;
+    font-size: large;
     margin: 0;
     font-weight: bold;
 }
 .item-info > h2 {
-    font-size: large;
+    font-size: medium;
     margin: 5px 0 0 0;
     color: #666666;
 }
@@ -71,4 +71,5 @@ body {
 .item-count {
     font-size: xx-large;
     text-align: right;
+    font-weight: bold;
 }
