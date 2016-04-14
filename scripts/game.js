@@ -29,22 +29,22 @@ app.controller('game', function($scope, localStorageService) {
   var potentialDoots;
 
   var updateDoots = function(){
-    potentialDoots = (itemCounts[1] || 0) + 1;
+    potentialDoots = (itemCounts[1] || 0);
   };
 
   updateDoots();
-  $scope.shop.getCost = getCost;
 
   var getCost = function(item){
     return Math.floor(item.baseCost*Math.pow(1.1,item.count));
   };
+  $scope.shop.getCost = getCost;
 
   var canAfford = function(item){
     return getCost(item) <= $scope.updoots;
   };
 
   var dootPercent = function(post){
-    var progress = post.updoots/potentialDoots;
+    var progress = post.updoots/(potentialDoots + 1);
     return Math.round(progress*100);
   };
   $scope.dootPercent = dootPercent;
@@ -88,8 +88,13 @@ app.controller('game', function($scope, localStorageService) {
   };
 
   var posts = 1;
+
+  var newPost = function(text){
+    return {text: text, selfdooted: false, updoots: 0, progress: 0};
+  };
+
   var makePost = function() {
-    var post = {text: "NEW POST"+posts, selfdooted: false, updoots: 0};
+    var post = newPost("NEW POST"+posts);
     $scope.posts.unshift(post);
     if($scope.posts.length>maxPosts){
       $scope.posts.pop();
@@ -100,4 +105,27 @@ app.controller('game', function($scope, localStorageService) {
   };
 
   $scope.post =_.throttle(makePost, 100);
+
+  var currentPost;
+  var remainder = 0;
+
+  var tick = function(){
+    if(currentPost != $scope.posts[0]){
+      currentPost = $scope.posts[0];
+      remainder = 0;
+    }
+
+    if(currentPost.updoots < potentialDoots){
+      var progress = currentPost.updoots/potentialDoots;
+      var step = potentialDoots*0.02*(1-progress) + remainder;
+      var newDoots = Math.floor(step);
+      remainder = step-newDoots;
+      $scope.$apply(function(){
+        currentPost.updoots += newDoots;
+        $scope.updoots += newDoots;
+      });
+    }
+  };
+
+  var clock = setInterval(tick, 100);
 });
