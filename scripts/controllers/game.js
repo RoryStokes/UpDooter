@@ -93,7 +93,7 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
   var autoPost = function() {
     PostService.makePost();
-    var timeToNext = 60000 * approxNormalRand() / ShopService.getItemCounts()[3];
+    var timeToNext = 120000 * approxNormalRand() / ShopService.getItemCounts()[3];
     autoPosting = window.setTimeout(applyAutoPost, timeToNext);
   };
 
