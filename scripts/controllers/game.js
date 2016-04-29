@@ -13,8 +13,9 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
   $scope.getShop = ShopService.getShop;
 
-  var dp10 = 0;
-  var lastDoots = _.times(10, _.constant(0));
+  var dp100 = 0;
+
+  var lastDoots = _.times(100, _.constant(0));
 
   var addDoots = function(doots) {
     $scope.updoots += doots;
@@ -22,11 +23,11 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
     var old = lastDoots.shift();
     console.log(old);
     lastDoots.push(doots);
-    dp10 += doots-old;
+    dp100 += doots-old;
   };
 
   $scope.getDps = function() {
-    return dp10/10;
+    return dp100/100;
   };
 
   var potentialDoots;
