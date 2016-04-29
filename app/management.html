@@ -1,0 +1,22 @@
+<div class="panel panel-primary panel-management">
+    <div class="panel-heading">
+        Page Management
+    </div>
+    <table class="table panel-footer">
+        <tr>
+            <th width="150px" class="text-right">Updoots</th>
+            <td>🎺{{updoots}}</td>
+        </tr>
+    </table>
+    <div ng-repeat="item in getShop()" class="panel-body shop-item" ng-class="{'disabled':!canAfford(item)}">
+        <a class="row" href="" ng-class="{'disabled':!canAfford(item)}" ng-click="buy(item)">
+            <div class="col-xs-9 item-info">
+                <h1>{{item.name}}</h1>
+                <h2>🎺{{item.cost}}</h2>
+            </div>
+            <div class="col-xs-3 item-count">
+                {{item.count}}
+            </div>
+        </a>
+    </div>
+</div>
