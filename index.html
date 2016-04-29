@@ -13,7 +13,12 @@
   <link rel="stylesheet" href="style/html5boilerplate.css">
   <link rel="stylesheet" href="style/bootstrap.min.css">
   <link rel="stylesheet" href="style/main.css">
-  <script src="scripts/game.js"></script>
+  <script src="scripts/bundle.js"></script>
+  <script src="scripts/services/StorageService.js"></script>
+  <script src="scripts/services/MemeMachine.js"></script>
+  <script src="scripts/services/PostService.js"></script>
+  <script src="scripts/services/ShopService.js"></script>
+  <script src="scripts/controllers/game.js"></script>
 </head>
 <body>
 <div ng-controller="game">
@@ -29,27 +34,7 @@
       <div class="text-center">
         <button type="button" class="btn btn-primary btn-post" href="#" role="button" data-toggle="button" ng-click="post()">Make Post</button>
       </div>
-      <div ng-repeat="post in posts" class="panel panel-default">
-        <div class="panel-body">{{post.text}}</div>
-        <div class="panel-footer button-bar text-right">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
-          </div>
-        </div>
-        <div class="panel-footer doot-bar" ng-show="post.updoots">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="progress">
-                <div class="progress-bar" ng-class="{'dulled': !$first}" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{width : (dootPercent(post) + '%' ) }">
-                  {{dootPercent(post)}}%
-                </div>
-              </div>
-            </div>
-          <div class="col-md-6 text-right">
-            Updooted by {{post.updoots}}
-          </div>
-          </div>
-        </div>
+      <div ng-repeat="post in getPosts()" class="panel panel-default" ng-include="'post.html'">
       </div>
     </div>
   </div>
