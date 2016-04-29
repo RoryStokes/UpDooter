@@ -66,12 +66,12 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
   $scope.doot = function(post){
     if(post.selfdooted){
       //undoot
-      $scope.updoots --;
+      $scope.updoots -= post.commentCount + 1;
       post.selfdooted = false;
     }
     else {
       //updoot
-      $scope.updoots ++;
+      $scope.updoots += post.commentCount + 1;
       post.selfdooted = true;
     }
     //localStorageService.set('posts', $scope.posts);
@@ -80,12 +80,6 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
   $scope.post =_.throttle(PostService.makePost, 100);
 
   var tickCount = 0;
-
-  var updatePost = function(post) {
-    if (!post[remainderName]) {
-      post[remainderName] = 0;
-    }
-  };
 
   var approxNormalRand =  function() {
     return (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) / 6;
@@ -149,7 +143,10 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
           doots += dootDiff + commentDoots;
         }
         if(commentDiff > 0) {
-          post.commentCount += commentDiff
+          if(post.selfdooted){
+            $scope.updoots += commentDiff;
+          }
+          post.commentCount += commentDiff;
         }
 
       }
