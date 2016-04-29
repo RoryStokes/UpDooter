@@ -13,6 +13,22 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
   $scope.getShop = ShopService.getShop;
 
+  var dp10 = 0;
+  var lastDoots = _.times(10, _.constant(0));
+
+  var addDoots = function(doots) {
+    $scope.updoots += doots;
+    console.log(lastDoots);
+    var old = lastDoots.shift();
+    console.log(old);
+    lastDoots.push(doots);
+    dp10 += doots-old;
+  };
+
+  $scope.getDps = function() {
+    return dp10/10;
+  };
+
   var potentialDoots;
 
   var getPotentialDoots = function() {
@@ -97,6 +113,7 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
     var i = 0;
     var potentialDoots = getPotentialDoots();
     var potentialComments = getPotentialComments();
+    var doots = 0;
 
     while (((tickCount % divisor) == 0) && (i < posts.length)) {
       var post = posts[i];
@@ -128,7 +145,7 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
           }
           post.updoots += dootDiff;
           post.commentDoots += commentDoots;
-          $scope.updoots += dootDiff + commentDoots;
+          doots += dootDiff + commentDoots;
         }
         if(commentDiff > 0) {
           post.commentCount += commentDiff
@@ -139,6 +156,8 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
       divisor *= 2;
       i++;
     }
+
+    addDoots(doots);
   };
 
   var digestTick = function() {
