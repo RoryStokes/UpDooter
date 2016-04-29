@@ -36,7 +36,13 @@ angular.module('upDooter').service('MemeMachine', function() {
                 return _.sample(['GF','SO','partner','girlfriend','mum','mother','roommate']);
             },
             made: function() {
-                return _.sample(['made','drew','painted','modelled','rendered','ruined','photoshopped'])
+                return _.sample(['made','drew','painted','modelled','rendered','ruined','photoshopped']);
+            },
+            IAMA: function() {
+                return _.sample(['IAMA','IAM','I am']);
+            },
+            AMA: function() {
+                return _.sample(['AMA','AMAA','ask me anything','ask me almost anything']);
             }
         }
     });
@@ -49,7 +55,8 @@ angular.module('upDooter').service('MemeMachine', function() {
                 "{{ TFW }} {{ your }} {{ noun }} {{ verbs }}",
                 "Instructions unclear, {{ noun }} stuck in {{ noun }}",
                 "ELI5 how {{ your }} {{ noun }} {{ verbs }}",
-                "They say you are what you eat, but I don't remember eating {{ an_adjective}} {{noun}}"
+                "They say you are what you eat, but I don't remember eating {{ an_adjective}} {{noun}}",
+                "{{ IAMA }} {{ an_adjective }} {{ noun }}, {{ AMA }}"
             ]));
         }
     };
