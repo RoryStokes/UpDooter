@@ -6,11 +6,6 @@ angular.module('upDooter').service('MemeMachine', function() {
     var _ = window._;
 
     var tags = [];
-    var count = 0;
-    var getImage = function() {
-        count ++;
-        return 'http://lorempixel.com/500/380/?'+count;
-    };
 
 
     Sentencer.configure({
@@ -77,7 +72,7 @@ angular.module('upDooter').service('MemeMachine', function() {
 
             return {
                 text: text,
-                image: getImage()
+                tags: tags
             }
         }
     };
