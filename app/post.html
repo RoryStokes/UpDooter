@@ -1,4 +1,7 @@
-<div class="panel-body">{{post.text}}</div>
+<div class="panel-body">
+    <p>{{post.text}}</p>
+    <img src="{{post.image}}" width="500px" >
+</div>
 <div class="panel-footer button-bar text-right">
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-post-footer" ng-class="{'selected': post.selfdooted}" ng-click="doot(post)">🎺 Updoot</button>
@@ -18,4 +21,4 @@
         </div>
     </div>
 </div>
-<div class="panel-body">See {{post.commentCount}} comments</div>
+<div class="panel-body">See {{post.commentCount}} comments (with {{post.commentDoots}} updoots)</div>

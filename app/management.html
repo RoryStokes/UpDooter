@@ -7,6 +7,10 @@
             <th width="150px" class="text-right">Updoots</th>
             <td>🎺{{updoots}}</td>
         </tr>
+        <tr>
+            <th width="150px" class="text-right">DPS</th>
+            <td>🎺{{getDps()}}</td>
+        </tr>
     </table>
     <div ng-repeat="item in getShop()" class="panel-body shop-item" ng-class="{'disabled':!canAfford(item)}">
         <a class="row" href="" ng-class="{'disabled':!canAfford(item)}" ng-click="buy(item)">

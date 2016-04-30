@@ -3,6 +3,8 @@
 angular.module('upDooter').controller('game', function($scope, PostService, ShopService, StorageService) {
   var _ = window._;
 
+  var commentDootProb = 0.1;
+
   $scope.getPosts = PostService.getPosts;
 
   var getDoots = function() { return $scope.updoots };
@@ -10,6 +12,21 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
 
   $scope.getShop = ShopService.getShop;
+
+  var dp100 = 0;
+
+  var lastDoots = _.times(100, _.constant(0));
+
+  var addDoots = function(doots) {
+    $scope.updoots += doots;
+    var old = lastDoots.shift();
+    lastDoots.push(doots);
+    dp100 += doots-old;
+  };
+
+  $scope.getDps = function() {
+    return dp100/100;
+  };
 
   var potentialDoots;
 
@@ -36,18 +53,23 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
     if(canAfford(item)){
       $scope.updoots -= item.cost;
       ShopService.buy(item);
+
+      //Set up autoposting on first buy of poster
+      if(!autoPosting && item.id == 3){
+        autoPost()
+      }
     }
   };
 
   $scope.doot = function(post){
     if(post.selfdooted){
       //undoot
-      $scope.updoots --;
+      $scope.updoots -= post.commentCount + 1;
       post.selfdooted = false;
     }
     else {
       //updoot
-      $scope.updoots ++;
+      $scope.updoots += post.commentCount + 1;
       post.selfdooted = true;
     }
     //localStorageService.set('posts', $scope.posts);
@@ -57,12 +79,25 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
   var tickCount = 0;
 
-  var updatePost = function(post) {
-    if (!post[remainderName]) {
-      post[remainderName] = 0;
-    }
-
+  var approxNormalRand =  function() {
+    return (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) / 6;
   };
+
+  var autoPosting = null;
+
+  var applyAutoPost = function() {
+    $scope.$apply(autoPost);
+  };
+
+  var autoPost = function() {
+    PostService.makePost();
+    var timeToNext = 120000 * approxNormalRand() / ShopService.getItemCounts()[3];
+    autoPosting = window.setTimeout(applyAutoPost, timeToNext);
+  };
+
+  if(ShopService.getItemCounts()[3]){
+    autoPost();
+  }
 
   var tick = function() {
     var posts = PostService.getPosts();
@@ -71,6 +106,7 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
     var i = 0;
     var potentialDoots = getPotentialDoots();
     var potentialComments = getPotentialComments();
+    var doots = 0;
 
     while (((tickCount % divisor) == 0) && (i < posts.length)) {
       var post = posts[i];
@@ -87,11 +123,28 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
         var commentDiff = Math.round(doubleProgress*potentialComments*post.commentRand) - post.commentCount;
 
         if(dootDiff > 0) {
+          var dootables = post.commentCount * dootDiff;
+          var commentDoots = 0;
+
+          if(dootables > 0){
+            var noDootProb = Math.pow((1-commentDootProb), dootables);
+            var rand = Math.random();
+
+            if(rand > noDootProb){
+              //bonus doots are happening, lets do some filthy maths
+              var normy = approxNormalRand();
+              commentDoots = Math.round(normy*dootables);
+            }
+          }
           post.updoots += dootDiff;
-          $scope.updoots += dootDiff;
+          post.commentDoots += commentDoots;
+          doots += dootDiff + commentDoots;
         }
         if(commentDiff > 0) {
-          post.commentCount += commentDiff
+          if(post.selfdooted){
+            $scope.updoots += commentDiff;
+          }
+          post.commentCount += commentDiff;
         }
 
       }
@@ -99,6 +152,8 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
       divisor *= 2;
       i++;
     }
+
+    addDoots(doots);
   };
 
   var digestTick = function() {
