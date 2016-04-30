@@ -19,9 +19,7 @@ angular.module('upDooter').controller('game', function($scope, PostService, Shop
 
   var addDoots = function(doots) {
     $scope.updoots += doots;
-    console.log(lastDoots);
     var old = lastDoots.shift();
-    console.log(old);
     lastDoots.push(doots);
     dp100 += doots-old;
   };

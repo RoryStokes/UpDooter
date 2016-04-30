@@ -9,9 +9,10 @@ angular.module('upDooter').service('PostService', function(MemeMachine, StorageS
     var posts =  StorageService.bind('posts', getPosts) || [];
     var maxPosts = 10;
 
-    function newPost(text) {
+    function newPost(meme) {
         return {
-            text: text,
+            text: meme.text,
+            image: meme.image,
             selfdooted: false,
             updoots: 0,
             progress: 0,

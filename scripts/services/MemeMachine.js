@@ -4,6 +4,15 @@
 angular.module('upDooter').service('MemeMachine', function() {
     var Sentencer = window.Sentencer;
     var _ = window._;
+
+    var tags = [];
+    var count = 0;
+    var getImage = function() {
+        count ++;
+        return 'http://lorempixel.com/500/380/?'+count;
+    };
+
+
     Sentencer.configure({
         actions: {
             TFW: function() {
@@ -43,21 +52,33 @@ angular.module('upDooter').service('MemeMachine', function() {
             },
             AMA: function() {
                 return _.sample(['AMA','AMAA','ask me anything','ask me almost anything']);
+            },
+            tag: function(action) {
+                var response = Sentencer.make("{{ "+action+" }}");
+                tags.push(response);
+                console.log(response);
+                return response;
             }
         }
     });
 
     return {
         getPost: function () {
-            return Sentencer.make(_.sample([
-                "{{ DAE }} remember this {{ opt_adjective }}{{ meme_noun }}?",
-                "My {{ gf }} {{ made }} this {{ opt_adjective }} {{ noun }}",
-                "{{ TFW }} {{ your }} {{ noun }} {{ verbs }}",
-                "Instructions unclear, {{ noun }} stuck in {{ noun }}",
+            tags = [];
+            var text = Sentencer.make(_.sample([
+                "{{ DAE }} remember this {{ tag('opt_adjective') }}{{ tag('meme_noun') }}?",
+                "My {{ gf }} {{ made }} this {{ tag('opt_adjective') }} {{ tag('noun') }}",
+                "{{ TFW }} {{ your }} {{ tag('noun') }} {{ tag('verbs') }}",
+                "Instructions unclear, {{ tag('noun') }} stuck in {{ tag('noun') }}",
                 "ELI5 how {{ your }} {{ noun }} {{ verbs }}",
-                "They say you are what you eat, but I don't remember eating {{ an_adjective}} {{noun}}",
-                "{{ IAMA }} {{ an_adjective }} {{ noun }}, {{ AMA }}"
+                "They say you are what you eat, but I don't remember eating {{ tag('an_adjective') }} {{ tag('noun') }}",
+                "{{ IAMA }} {{ tag('an_adjective') }} {{ tag('noun') }}, {{ AMA }}"
             ]));
+
+            return {
+                text: text,
+                image: getImage()
+            }
         }
     };
 });
