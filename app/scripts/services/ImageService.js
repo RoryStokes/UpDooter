@@ -3,25 +3,26 @@
  */
 angular.module('upDooter').service('ImageService', function($rootScope) {
     var imgur = window.imgur;
+    var imageSearch = window.imageSearch;
     var count = 0;
+    
+    
 
     return {
         getImage: function(post, tags) {
-            var query = _.sample(tags);
-            imgur.search(query)
-                .then(function(data) {
-                    if(data.length > 1){
-                        var image = _.sample(data);
-                        $rootScope.$apply(function(){
-                            post.image = image.link;
-                        });
-                    }else{
-                        count ++;
-                        $rootScope.$apply(function(){
-                            post.image = 'http://lorempixel.com/500/380/?'+count;
-                        });
-                    }
-                });
+            count ++;
+            //post.image = 'http://lorempixel.com/500/380/?'+count;
+            var query = tags.join(' ');
+            imageSearch(query, function(err, data) {
+                console.log(err);
+
+                if(data){
+                    var image = _.sample(data);
+                    $rootScope.$apply(function(){
+                        post.image = image.url;
+                    });
+                }
+            });
         }
     };
 });
