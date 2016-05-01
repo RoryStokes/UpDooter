@@ -65,7 +65,7 @@ angular.module('upDooter').service('MemeMachine', function() {
                 "My {{ gf }} {{ made }} this {{ tag('opt_adjective') }} {{ tag('noun') }}",
                 "{{ TFW }} {{ your }} {{ tag('noun') }} {{ tag('verbs') }}",
                 "Instructions unclear, {{ tag('noun') }} stuck in {{ tag('noun') }}",
-                "ELI5 how {{ your }} {{ noun }} {{ verbs }}",
+                "ELI5 how {{ your }} {{ tag('noun') }} {{ tag('verbs') }}",
                 "They say you are what you eat, but I don't remember eating {{ tag('an_adjective') }} {{ tag('noun') }}",
                 "{{ IAMA }} {{ tag('an_adjective') }} {{ tag('noun') }}, {{ AMA }}"
             ]));

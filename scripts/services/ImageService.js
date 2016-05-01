@@ -7,7 +7,11 @@ angular.module('upDooter').service('ImageService', function($rootScope) {
 
     return {
         getImage: function(post, tags) {
-            var query = _.sample(tags);
+            count ++;
+            $rootScope.$apply(function(){
+                post.image = 'http://lorempixel.com/500/380/?'+count;
+            });
+            /*var query = _.sample(tags);
             imgur.search(query).then(function(data) {
                 if(data.length > 1){
                     var image = _.sample(data);
@@ -15,12 +19,8 @@ angular.module('upDooter').service('ImageService', function($rootScope) {
                         post.image = image.link;
                     });
                 }else{
-                    count ++;
-                    $rootScope.$apply(function(){
-                        post.image = 'http://lorempixel.com/500/380/?'+count;
-                    });
                 }
-            });
+            });*/
         }
     };
 });
