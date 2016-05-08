@@ -20,10 +20,14 @@
   <script src="scripts/services/MemeMachine.js"></script>
   <script src="scripts/services/PostService.js"></script>
   <script src="scripts/services/ShopService.js"></script>
-  <script src="scripts/controllers/game.js"></script>
+  <script src="scripts/services/Game.js"></script>
+  <script src="scripts/controllers/Config.js"></script>
+  <script src="scripts/controllers/Feed.js"></script>
+  <script src="scripts/controllers/Management.js"></script>
+  <script src="scripts/controllers/PostDetails.js"></script>
 </head>
 <body>
-<div ng-controller="game">
+<div>
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -32,12 +36,8 @@
 
     <div class="col-md-4 col-md-push-8 col-sm-12" ng-include="'management.html'"></div>
 
-    <div class="col-md-8 col-md-pull-4 col-sm-12 page">
-      <div class="text-center">
-        <button type="button" class="btn btn-primary btn-post" href="#" role="button" data-toggle="button" ng-click="post()">Make Post</button>
-      </div>
-      <div ng-repeat="post in getPosts()" class="panel panel-default" ng-include="'post.html'">
-      </div>
+    <div class="col-md-8 col-md-pull-4 col-sm-12 page" ng-view>
+
     </div>
   </div>
 </div>

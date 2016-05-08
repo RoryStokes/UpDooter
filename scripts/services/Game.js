@@ -1,65 +1,28 @@
 'use strict';
 
-angular.module('upDooter').controller('game', function($scope, $routeParams, PostService, ShopService, StorageService) {
-  var _ = window._;
-  var encryptor = window.encryptor;
-
+angular.module('upDooter').service('Game', function($rootScope, StorageService, PostService, ShopService) {
   var commentDootProb = 0.1;
-
-  $scope.getPosts = PostService.getPosts;
-
-  var getDoots = function() { return $scope.updoots };
-  $scope.updoots = StorageService.bind('updoots', getDoots) || 0;
-
-
-  $scope.getShop = ShopService.getShop;
-  
-  if ($routeParams.postDetails) {
-    var details = $routeParams.postDetails.split('-');
-    $scope.post = {
-      text: encryptor.decrypt(details[0]),
-      image: encryptor.decrypt(details[1])
-    };
-    console.log($scope.post);
-  }
-
-  $scope.$on('$locationChangeStart', function() {
-    if ($routeParams.postDetails) {
-      var details = $routeParams.postDetails.split('-');
-      $scope.post = {
-        text: encryptor.decrypt(details[0]),
-        image: encryptor.decrypt(details[1])
-      };
-      console.log($scope.post);
-    }
-  });
+  var getDoots = function() { return updoots };
+  var updoots = StorageService.bind('updoots', getDoots) || 0;
 
   var dp100 = 0;
 
   var lastDoots = _.times(100, _.constant(0));
 
   var addDoots = function(doots) {
-    $scope.updoots += doots;
+    updoots += doots;
     var old = lastDoots.shift();
     lastDoots.push(doots);
     dp100 += doots-old;
   };
 
-  $scope.getDps = function() {
+  var getDps = function() {
     return dp100/100;
   };
 
-
-  $scope.getUrl = function(post) {
-    return '#/post/'+
-        encryptor.encrypt(post.text)+
-        '-'+
-        encryptor.encrypt(post.image);
+  var canAfford = function(item){
+    return item.cost <= updoots;
   };
-
-
-
-  var potentialDoots;
 
   var getPotentialDoots = function() {
     return ShopService.getItemCounts()[1];
@@ -69,66 +32,49 @@ angular.module('upDooter').controller('game', function($scope, $routeParams, Pos
     return ShopService.getItemCounts()[2];
   };
 
-  var canAfford = function(item){
-    return item.cost <= $scope.updoots;
-  };
-
-  $scope.dootPercent = function(post){
+  var dootPercent = function(post){
     var progress = (post.updoots+post.selfdooted)/(getPotentialDoots() + 1);
     return Math.round(progress*100);
   };
 
-  $scope.canAfford = canAfford;
-
-  $scope.buy = function(item){
-    if(canAfford(item)){
-      $scope.updoots -= item.cost;
-      ShopService.buy(item);
-
-      //Set up autoposting on first buy of poster
-      if(!autoPosting && item.id == 3){
-        autoPost()
-      }
-    }
-  };
-
-  $scope.doot = function(post){
-    if(post.selfdooted){
-      //undoot
-      $scope.updoots -= post.commentCount + 1;
-      post.selfdooted = false;
-    }
-    else {
-      //updoot
-      $scope.updoots += post.commentCount + 1;
-      post.selfdooted = true;
-    }
-    //localStorageService.set('posts', $scope.posts);
-  };
-
-  $scope.post =_.throttle(PostService.makePost, 100);
-
-  var tickCount = 0;
+  var autoPosting = false;
+  var timeToNextPost;
 
   var approxNormalRand =  function() {
     return (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) / 6;
   };
 
-  var autoPosting = null;
+  var buy = function(item){
+    if(canAfford(item)){
+      updoots -= item.cost;
+      ShopService.buy(item);
+
+      //Set up autoposting on first buy of poster
+      if(item.id == 3){
+        if(!autoPosting) {
+          timeToNextPost = 120000 * approxNormalRand() / ShopService.getItemCounts()[3];
+          autoPost();
+        }
+      }
+    }
+  };
 
   var applyAutoPost = function() {
-    $scope.$apply(autoPost);
+    $rootScope.$apply(autoPost);
   };
 
   var autoPost = function() {
     PostService.makePost();
-    var timeToNext = 120000 * approxNormalRand() / ShopService.getItemCounts()[3];
-    autoPosting = window.setTimeout(applyAutoPost, timeToNext);
+    autoPosting = window.setTimeout(applyAutoPost, timeToNextPost);
   };
 
-  if(ShopService.getItemCounts()[3]){
+  if(ShopService.getItemCounts()[3] > 0) {
+    autoPosting = true;
+    timeToNextPost = 120000 * approxNormalRand() / ShopService.getItemCounts()[3];
     autoPost();
   }
+
+  var tickCount = 0;
 
   var tick = function() {
     var posts = PostService.getPosts();
@@ -173,7 +119,7 @@ angular.module('upDooter').controller('game', function($scope, $routeParams, Pos
         }
         if(commentDiff > 0) {
           if(post.selfdooted){
-            $scope.updoots += commentDiff;
+            updoots += commentDiff;
           }
           post.commentCount += commentDiff;
         }
@@ -188,9 +134,18 @@ angular.module('upDooter').controller('game', function($scope, $routeParams, Pos
   };
 
   var digestTick = function() {
-    $scope.$apply(tick);
+    $rootScope.$apply(tick);
   };
 
   var clock = setInterval(digestTick, 100);
   setInterval(StorageService.save, 5000);
+
+  return {
+    getDoots: getDoots,
+    getDps: getDps,
+    addDoots: addDoots,
+    canAfford: canAfford,
+    buy: buy,
+    dootPercent: dootPercent
+  }
 });
