@@ -10,7 +10,9 @@ angular.module('upDooter').controller('PostDetails', function($scope, $routePara
         FB.ui({
             method: 'feed',
             link: 'http://rorystokes.github.io/UpDooter/#/' + $routeParams.postDetails,
-            caption: text
+            caption: text,
+            image: image,
+            display: page
         }, function(response){ console.log(response) });
         console.log('shared');
     };
