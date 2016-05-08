@@ -12,7 +12,7 @@ angular.module('upDooter').controller('PostDetails', function($scope, $routePara
             link: 'http://rorystokes.github.io/UpDooter/#/' + $routeParams.postDetails,
             caption: text,
             image: image,
-            display: page
+            display: 'page'
         }, function(response){ console.log(response) });
         console.log('shared');
     };
