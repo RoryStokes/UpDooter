@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('upDooter').controller('Feed', function($scope, $routeParams, PostService, ShopService, StorageService, Game) {
+angular.module('upDooter').controller('Feed', function($scope, $routeParams, PostService, ShopService, StorageService, Game, Settings) {
     var _ = window._;
     var encryptor = window.encryptor;
     var random = window.random;
+    $scope.settings = Settings;
         
     $scope.getPosts = PostService.getPosts;
     

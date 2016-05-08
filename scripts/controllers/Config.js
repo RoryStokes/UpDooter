@@ -8,4 +8,5 @@ angular.module('upDooter').config(function($routeProvider) {
         templateUrl: 'feed.html',
         controller: 'Feed'
     });
-});
+})
+  .value('Settings', {images: true});
