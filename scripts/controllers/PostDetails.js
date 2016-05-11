@@ -9,7 +9,7 @@ angular.module('upDooter').controller('PostDetails', function($scope, $routePara
     $scope.share = function() {
         FB.ui({
             method: 'feed',
-            link: 'http://rorystokes.github.io/UpDooter/#/' + $routeParams.postDetails,
+            link: 'http://rorystokes.github.io/UpDooter/#/post' + $routeParams.postDetails,
             caption: text,
             image: image,
             display: 'dialog'
